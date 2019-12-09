@@ -29,3 +29,46 @@ const cdtParser =async  () =>{
 (async ()=>{
     console.log("cdtsPAAAAAAAA", await cdtParser());
 })();
+
+
+const courseExample = [
+    {
+        "from": "start",
+        "to": {
+            "Ord": "Go_up",
+            "Inh": "Go_dn"
+        }
+    },
+    {
+        "from": {
+            "Ord": "Go_up",
+            "Inh": "Go_dn"
+        },
+        "to": "2",
+        "action": "dn"
+    },
+    {
+        "from": "2",
+        "to": {
+            "Ord": "Go_dn",
+            "Inh": "Go_up"
+        },
+        "action": "up"
+    },
+    {
+        "from": {
+            "Ord": "Go_dn",
+            "Inh": "Go_up"
+        },
+        "to": "6",
+        "action": "up"
+    },
+    {
+        "from": "6",
+        "to": {
+            "Ord": "Go_up",
+            "Inh": "Go_dn"
+        },
+        "action": "Go_up"
+    }
+]
