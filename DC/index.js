@@ -99,6 +99,7 @@ const merge = async (source, cdtFilePath) =>{
     })
 
     //return the new object
+    source = source.map(x=>JSON.stringify(x));
     return source;
 }
 
