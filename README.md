@@ -1,6 +1,13 @@
 # MDE
 MDE project
 
-# Live deploy at 
-https://smed-mde.glitch.me
+# Live deploy not working we tried : 
+- glitch
+- netlify
+- heroku
+
+## Problem:
+- The prod env is different the prod env due to one of the dependencies using JAVA_HOME
+- The dependency concerned is node-plantuml the one that makes images from plantuml
+
 
