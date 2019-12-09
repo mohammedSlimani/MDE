@@ -1,0 +1,5 @@
+[ {"from":"start","to":{"Ord":"Go_up","Inh":"Go_dn","Ord_cdt":" < free v < not Eject > ^ < wpa2 > >  ","Inh_cdt":"--"}},
+  {"from":{"Ord":"Go_up","Inh":"Go_dn","Ord_cdt":" < free v < not Eject > ^ < wpa2 > >  ","Inh_cdt":"--"},"to":"2","action":"dn"},
+  {"from":"2","to":{"Ord":"Go_dn","Inh":"Go_up","Ord_cdt":" < < not ok v < not Eject > > ^ < < < ok > v < Eject > > -> up ebp > >  ","Inh_cdt":"--"},"action":"up"},
+  {"from":{"Ord":"Go_dn","Inh":"Go_up","Ord_cdt":" < < not ok v < not Eject > > ^ < < < ok > v < Eject > > -> up ebp > >  ","Inh_cdt":"--"},"to":"6","action":"up"},
+  {"from":"6","to":{"Ord":"Go_up","Inh":"Go_dn","Ord_cdt":" < free v < not Eject > ^ < wpa2 > >  ","Inh_cdt":"--"},"action":"Go_up"} ]
