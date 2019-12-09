@@ -21,7 +21,7 @@ const cdtParser =async  (fileName) =>{
         .replaceAll('or','^')
         .replaceAll('and','v')
         const cdt = myLine.split('Ord: ')
-        if(cdts.length === 2){
+        if(cdt.length === 2){
             cdts[cdt[1]] = cdt[0]
         }
     })
@@ -34,7 +34,7 @@ const cdtParser =async  (fileName) =>{
 })();
 
 
-const courseExample = [
+const sourceExample = [
     {
         "from": "start",
         "to": {
@@ -79,7 +79,7 @@ const courseExample = [
 const merge = async (source) =>{
     // get the conditions
     const cdts = await cdtParser("./cdt.txt");
-
+    console.log('cdts', cdts)
     // check the "to" and "from" for objects, cz objects are what separates
     // controlled stated from uncontrolled states 
     // add attributes Ord_cdt and Inh_cdt 
@@ -98,3 +98,6 @@ const merge = async (source) =>{
 
     //return the new object
 }
+ (async ()=>{
+     await merge(sourceExample);
+ })();
