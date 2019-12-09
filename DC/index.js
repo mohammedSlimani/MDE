@@ -10,9 +10,9 @@ String.prototype.replaceAll = function(search, replacement) {
 //Making reading line a promise
 const eachLine = Promise.promisify(lineReader.eachLine);
 
-const cdtParser =async  () =>{
-    const cdts = [];
-    await eachLine('./cdt.txt', (line)=>{
+const cdtParser =async  (fileName) =>{
+    const cdts = {};
+    await eachLine(fileName, (line)=>{
         let myLine = line
         .replaceAll('If', '')
         .replaceAll('Then','')
@@ -20,7 +20,10 @@ const cdtParser =async  () =>{
         .replaceAll('\\)','>')
         .replaceAll('or','^')
         .replaceAll('and','v')
-        cdts.push(myLine.split('Ord: '))
+        const cdt = myLine.split('Ord: ')
+        if(cdts.length === 2){
+            cdts[cdt[1]] = cdt[0]
+        }
     })
     return cdts;   
     
@@ -75,11 +78,17 @@ const courseExample = [
 
 const merge = async (source) =>{
     // get the conditions
+    const cdts = await cdtParser("./cdt.txt");
 
     // check the "to" and "from" for objects, cz objects are what separates
     // controlled stated from uncontrolled states 
-
     // add attributes Ord_cdt and Inh_cdt 
+    source.map( node => {
+        if(node.to.constructor.name === "Object"){
+            node.to.Ord
+        }
+    })
+
 
     //return the new object
 }
