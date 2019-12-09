@@ -99,4 +99,11 @@ app.post('/fromLCtoALC',(req,res,next)=> {
 
 });
 
+app.post('/Draw',(req,res,next)=> {
+    let myJson = req.body.ALC;
+    let todraw = JSON.parse(myJson);
+    console.log(todraw);
+}
+);
+
 app.listen(8080);
