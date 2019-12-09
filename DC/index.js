@@ -1,20 +1,5 @@
-// server.js
-// where your node app starts
-
-// init project
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const bodyParser = require("body-parser")
-const lineReader= require('line-reader')
-const Promise = require('bluebird')
-
-
-app.use(cors())
-app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
-app.use(bodyParser.json())
-
-
+const lineReader= require('line-reader'),
+        Promise = require('bluebird')
 
 //Making a String Prototype 
 String.prototype.replaceAll = function(search, replacement) {
@@ -35,64 +20,22 @@ const cdtParser =async  (fileName) =>{
             .replaceAll('\\(','<')
             .replaceAll('\\)','>')
             .replaceAll('or','^')
-            .replaceAll('\r','')
             .replaceAll('and','v')
             const cdt = myLine.split('Ord: ')
-            if(cdt && cdt.length === 2){
+            if(cdt.length === 2){
                 cdts[cdt[1]] = cdt[0]
             }
         })
     }catch(e){
-        console.log("wtf",e)
+        console.log(e)
     }
     return cdts;   
     
 }
 
-const stringParser = (str) =>{
-    const cdts = {};
-
-    const lines = str.split('\r\n');
-    for(let i =0; i<lines.length; i++ ){
-      const line =  lines[i].
-      replaceAll('If', '')
-            .replaceAll('Then','')
-            .replaceAll('\\(','<')
-            .replaceAll('\\)','>')
-            .replaceAll('or','^')
-            .replaceAll('and','v')
-      const cdt = line.split('Ord: ')
-            if(cdt.length === 2){
-                cdts[cdt[1]] = cdt[0]
-            }
-    }
-    console.log(cdts);
-    return cdts
-}
-
-const merge = async (source, cdt) =>{
-    // get the conditions
-    //const cdts = await cdtParser(cdtFilePath);
-    const cdts = stringParser(cdt)
-    // check the "to" and "from" for objects, cz objects are what separates
-    // controlled stated from uncontrolled states 
-    // add attributes Ord_cdt and Inh_cdt 
-    source.map( node => {
-        if(node.to.constructor.name === "Object"){
-            node.to.Ord_cdt = cdts[node.to.Ord];
-            node.to.Inh_cdt = "--"
-        }
-        if(node.from.constructor.name === "Object"){
-            node.from.Ord_cdt = cdts[node.from.Ord];
-            node.from.Inh_cdt = "--"
-        }
-    })
-
-    //return the new object
-    source = source.map(x=>JSON.stringify(x));
-    return source;
-}
-
+(async ()=>{
+    console.log("cdtsPAAAAAAAA", await cdtParser());
+})();
 
 
 const sourceExample = [
@@ -137,23 +80,30 @@ const sourceExample = [
     }
 ]
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
+const merge = async (source, cdtFilePath) =>{
+    // get the conditions
+    const cdts = await cdtParser(cdtFilePath);
+    
+    // check the "to" and "from" for objects, cz objects are what separates
+    // controlled stated from uncontrolled states 
+    // add attributes Ord_cdt and Inh_cdt 
+    source.map( node => {
+        if(node.to.constructor.name === "Object"){
+            node.to.Ord_cdt = cdts[node.to.Ord];
+            node.to.Inh_cdt = "--"
+        }
+        if(node.from.constructor.name === "Object"){
+            node.from.Ord_cdt = cdts[node.from.Ord];
+            node.from.Inh_cdt = "--"
+        }
+    })
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function(request, response) {
-  response.sendFile(__dirname + "/views/index.html");
-});
+    //return the new object
+    return source;
+}
 
-app.use("/parse", async (req,res)=>{
-  console.log('post has been caleled');
-  const {source, cdt} = req.body;
-  console.log("cdt", cdt);
-    const result = await merge(source, cdt);
-    res.json({result});
-})
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+ (async ()=>{
+     const mergedSource = await merge(sourceExample, "./cdt.txt");
+     console.log('result', mergedSource);
+ })();

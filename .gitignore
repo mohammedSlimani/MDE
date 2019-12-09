@@ -105,8 +105,4 @@ dist
 
 
 # pycham
-ParserInverser/.idea/*
-
-LctoALC/.idea/
-
-.idea/
+ParserInverser/.idea
