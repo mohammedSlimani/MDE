@@ -140,4 +140,6 @@ app.post('/getInfo', async (req,rep,next) => {
     });
 console.log("resp3", resp3.data.result);
 });
-app.listen(8080);
+app.listen(8080, ()=>{
+    console.log("Front End Started at http://localhost:8080/home")
+});
