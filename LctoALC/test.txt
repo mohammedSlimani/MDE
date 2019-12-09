@@ -1,2 +1,6 @@
 @startuml
+(Ord:Go_up....Inh:Go_dn) --> (2) : dn
+(2) --> (Ord:Go_dn....Inh:Go_up) : up
+(Ord:Go_dn....Inh:Go_up) --> (6) : up
+(6) --> (Ord:Go_up....Inh:Go_dn) : dn
 @enduml

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>MDE Project</title>
+</head>
+<body>
+<header>
+
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <strong>MDE</strong>
+            </a>
+
+        </div>
+    </div>
+</header>
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1>Grafcet Generator</h1>
+            <p class="lead text-muted">Please enter the state machine text written with Plantuml and the constraints written with OCL</p>
+            <p>
+            <form action="/getInfo" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">State Machine (PLANTUML)</label>
+                    <textarea class="form-control" id="plantuml" name="plantuml" rows="3">@startuml
+(start)	--> (0)
+(0) --> (1) : <&arrow-top> Go_up
+(1) --> (2) : <&arrow-bottom> dn
+(2) --> (3) : <&arrow-top> up
+(3) --> (4) : <&arrow-bottom> Go_up
+(4) --> (5) : <&arrow-top> Go_dn
+(5) --> (6) : <&arrow-bottom> up
+(6) --> (7) : <&arrow-top> dn
+(7) --> (0) : <&arrow-bottom> Go_dn
+@enduml</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Constraints (OCL)</label>
+                    <textarea class="form-control" id="ocl" name="ocl" rows="3">If ( ( not ok and ( not Eject ) ) or ( ( ( ok ) and ( Eject ) ) -> up ebp ) ) Then Ord: Go_dn
+If ( free and ( not Eject ) or ( wpa2 ) ) Then Ord: Go_up</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary my-2">Generate Grafcet</button>
+
+        </form>
+    </section>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+
+</body>
+</html>
