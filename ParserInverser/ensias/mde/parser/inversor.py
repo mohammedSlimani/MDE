@@ -18,10 +18,16 @@ def inverse( edges ):
 
 
 
+
 def concat( s ):
     if type(s) == str:
         return s
-    return "\n....\n".join( [k+':'+v for k,v in s.items()] )
+    if 'Ord_cdt' in s:
+        ans = {}
+        ans["Ord"] = s["Ord"] + "\n If: " + s["Ord_cdt"]
+        ans["Inh"] = s["Inh"] + "\n If: " + s["Inh_cdt"]
+        return concat(ans)
 
+    return "("+ "\n....\n".join( [k+':'+v for k,v in s.items()] ) + ")"
 
 
