@@ -8,3 +8,16 @@ yarn install
 ```
 yarn start
 ```
+
+
+## it is Already hosted at 
+https://smed-dc.glitche.me/
+
+- the Route is :
+```
+POST https://smed-dc.glitch.me/parse 
+{
+    source,
+    cdt
+}
+``` 
