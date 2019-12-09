@@ -12,19 +12,23 @@ const eachLine = Promise.promisify(lineReader.eachLine);
 
 const cdtParser =async  (fileName) =>{
     const cdts = {};
-    await eachLine(fileName, (line)=>{
-        let myLine = line
-        .replaceAll('If', '')
-        .replaceAll('Then','')
-        .replaceAll('\\(','<')
-        .replaceAll('\\)','>')
-        .replaceAll('or','^')
-        .replaceAll('and','v')
-        const cdt = myLine.split('Ord: ')
-        if(cdt.length === 2){
-            cdts[cdt[1]] = cdt[0]
-        }
-    })
+    try{
+        await eachLine(fileName, (line)=>{
+            let myLine = line
+            .replaceAll('If', '')
+            .replaceAll('Then','')
+            .replaceAll('\\(','<')
+            .replaceAll('\\)','>')
+            .replaceAll('or','^')
+            .replaceAll('and','v')
+            const cdt = myLine.split('Ord: ')
+            if(cdt.length === 2){
+                cdts[cdt[1]] = cdt[0]
+            }
+        })
+    }catch(e){
+        console.log(e)
+    }
     return cdts;   
     
 }
@@ -76,10 +80,10 @@ const sourceExample = [
     }
 ]
 
-const merge = async (source) =>{
+const merge = async (source, cdtFilePath) =>{
     // get the conditions
-    const cdts = await cdtParser("./cdt.txt");
-    console.log('cdts', cdts)
+    const cdts = await cdtParser(cdtFilePath);
+    
     // check the "to" and "from" for objects, cz objects are what separates
     // controlled stated from uncontrolled states 
     // add attributes Ord_cdt and Inh_cdt 
@@ -94,10 +98,12 @@ const merge = async (source) =>{
         }
     })
 
-    console.log('after modification', source);
-
     //return the new object
+    return source;
 }
+
+
  (async ()=>{
-     await merge(sourceExample);
+     const mergedSource = await merge(sourceExample, "./cdt.txt");
+     console.log('result', mergedSource);
  })();
