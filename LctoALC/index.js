@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
 const app = express();
 const axios = require('axios');
-
+plantuml.useNailgun();
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -83,16 +83,27 @@ app.get('/Home', (req, rep, next) => {
 
 
 app.post('/getInfo', async (req, rep, next) => {
-    console.log('LC PLANTUML  : ', req.body.plantuml);
+    console.log(req.body.plantuml);
+    const s = req.body.plantuml;
+    await fs.writeFileSync('test.txt', req.body.plantuml, (err)=> {console.log('err',err)});
     console.log();
-    console.log();
+    let gen = plantuml.generate('test.txt');
+    //decode.out.pipe(gen.in);
+    gen.out.pipe(fs.createWriteStream("public/ImageGnerated/LC.png"));
+
     const resp = await axios.post('http://tromastrom.pythonanywhere.com/parse', {"uml": req.body.plantuml});
-    console.log('LC JSON : ', resp);
+
+    console.log('LC JSON : ', resp.data);
     console.log();
     console.log();
     const resp2 = await axios.post('http://tromastrom.pythonanywhere.com/inverse', fromLCtoLAC(resp.data.lc));
     //let todraw =  resp2.data.uml;
     //console.log('Plaint Uml ToDraw : ' , todraw);
+    const alcUml = resp2.data.uml.replace(/\n\.\.\.\.\n/g,'....');
+    await fs.writeFileSync('test.txt',alcUml , (err)=> {console.log('err',err)});
+    gen = plantuml.generate('test.txt');
+    gen.out.pipe(fs.createWriteStream("public/ImageGnerated/ACL.png"));
+
     console.log();
     console.log();
     // var gen = plantuml.generate(todraw);
@@ -108,6 +119,9 @@ app.post('/getInfo', async (req, rep, next) => {
         'cdt': req.body.ocl
     });
     console.log("resp3", resp3.data.result);
+    rep.render('result.ejs',{x:3})
+    //rep.status(200).json({message:"success!"})
+
 });
 app.listen(8080, () => {
     console.log("Front End Started at http://localhost:8080/home")
