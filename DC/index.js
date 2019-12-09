@@ -33,10 +33,24 @@ const cdtParser =async  (fileName) =>{
     
 }
 
-(async ()=>{
-    console.log("cdtsPAAAAAAAA", await cdtParser());
-})();
+const stringParser = (str) =>{
+    const cdts = {};
 
+    const lines = str.split('\n');
+    for( line of lines){
+        const cdt = line.split('Ord: ')
+            if(cdt.length === 2){
+                cdts[cdt[1]] = cdt[0]
+            }
+    }
+
+    return cdts
+} 
+
+const str = `If ( ( not ok and ( not Eject ) ) or ( ( ( ok ) and ( Eject ) ) -> up ebp ) ) Then Ord: Go_dn
+If ( free and ( not Eject ) or ( wpa2 ) ) Then Ord: Go_up`
+
+console.log('parsing string', stringParser(str))
 
 const sourceExample = [
     {
