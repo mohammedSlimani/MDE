@@ -85,10 +85,16 @@ const merge = async (source) =>{
     // add attributes Ord_cdt and Inh_cdt 
     source.map( node => {
         if(node.to.constructor.name === "Object"){
-            node.to.Ord
+            node.to.Ord_cdt = cdts[node.to.Ord];
+            node.to.Inh_cdt = "--"
+        }
+        if(node.from.constructor.name === "Object"){
+            node.from.Ord_cdt = cdts[node.from.Ord];
+            node.from.Inh_cdt = "--"
         }
     })
 
+    console.log('after modification', source);
 
     //return the new object
 }
