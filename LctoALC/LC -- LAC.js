@@ -1,5 +1,5 @@
 'use strict';
-
+var plantuml = require('node-plantuml');
 const fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
@@ -100,9 +100,11 @@ app.post('/fromLCtoALC',(req,res,next)=> {
 });
 
 app.post('/Draw',(req,res,next)=> {
-    let myJson = req.body.ALC;
-    let todraw = JSON.parse(myJson);
-    console.log(todraw);
+    let myJson = req.body.uml;
+   console.log(myJson);
+
+    var gen = plantuml.generate(myJson);
+    gen.out.pipe(fs.createWriteStream("output-file.png"));
 }
 );
 
