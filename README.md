@@ -2,7 +2,7 @@
 MDE project
 
 # Live deploy not working we tried : 
-- glitch
+- glitch: http://smed-mde.glitch.me/home
 - netlify
 - heroku
 
