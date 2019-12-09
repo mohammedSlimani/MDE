@@ -1,35 +1,17 @@
 'use strict';
-var plantuml = require('node-plantuml');
+const plantuml = require('node-plantuml');
 const fs = require('fs');
-var express = require('express');
-var bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-var app = express();
-const fetch = require('axios');
+const express = require('express');
+const bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
+const app = express();
+const axios = require('axios');
 
-/** bodyParser.urlencoded(options)
- * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
- * and exposes the resulting object (containing the keys and values) on req.body
- */
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(bodyParser.json());
+
 app.use( express.static( "public" ) );
-/**bodyParser.json(options)
- * Parses the text as JSON and exposes the resulting object on req.body.
- */
-
-
-
-
-
-
-
-
-
-
-
-
 
 function updateArray(diagArrElement, diagArrElement2,array) {
 
@@ -88,17 +70,6 @@ function fromLCtoLAC(lc) {
 
 }
 
-app.post('/fromLCtoALC',(req,res,next)=> {
-
-
-        /*  fs.appendFile('result.txt', JSON.stringify(diagArr2), function (err) {
-             if (err) throw err;
-             console.log('Saved!');
-         });
-         return diagArr2; */
-
-});
-
 app.post('/Draw',(req,res,next)=> {
     let myJson = req.body.uml;
    //console.log(myJson);
@@ -119,10 +90,10 @@ app.get('/Home',(req,rep,next) => {
 app.post('/getInfo', async (req,rep,next) => {
     console.log('LC PLANTUML  : ',req.body.plantuml);
     console.log();console.log();
-    const resp = await fetch.post('http://tromastrom.pythonanywhere.com/parse', {"uml":req.body.plantuml});
+    const resp = await axios.post('http://tromastrom.pythonanywhere.com/parse', {"uml":req.body.plantuml});
     console.log('LC JSON : ',resp);
     console.log();console.log();
-    const resp2 = await fetch.post('http://tromastrom.pythonanywhere.com/inverse', fromLCtoLAC(resp.data.lc));
+    const resp2 = await axios.post('http://tromastrom.pythonanywhere.com/inverse', fromLCtoLAC(resp.data.lc));
    //let todraw =  resp2.data.uml;
    //console.log('Plaint Uml ToDraw : ' , todraw);
     console.log();
@@ -134,7 +105,7 @@ app.post('/getInfo', async (req,rep,next) => {
     console.log();
     console.log("DC", fromLCtoLAC(resp.data.lc));
     console.log();console.log();
-    const  resp3  = await fetch.post('https://smed-dc.glitch.me/parse',{
+    const  resp3  = await axios.post('https://smed-dc.glitch.me/parse',{
         "source": fromLCtoLAC(resp.data.lc),
         'cdt' : req.body.ocl
     });
