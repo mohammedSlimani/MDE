@@ -72,3 +72,14 @@ const courseExample = [
         "action": "Go_up"
     }
 ]
+
+const merge = async (source) =>{
+    // get the conditions
+
+    // check the "to" and "from" for objects, cz objects are what separates
+    // controlled stated from uncontrolled states 
+
+    // add attributes Ord_cdt and Inh_cdt 
+
+    //return the new object
+}
